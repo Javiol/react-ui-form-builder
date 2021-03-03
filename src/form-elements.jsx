@@ -839,13 +839,15 @@ class Attachment extends React.Component {
   constructor(props){
     super(props);
     let name = null;
+    let file = null;
 
     if(props.defaultValue && typeof props.defaultValue === "string" && props.defaultValue !== ""){
-      name = props.defaultValue.substring(props.defaultValue.lastIndexOf("/") + 1, props.defaultValue.lastIndexOf("?"))
+      name = props.defaultValue.substring(props.defaultValue.lastIndexOf("/") + 1, props.defaultValue.lastIndexOf("?"));
+      file = props.defaultValue;
     }
 
     this.state = {
-      file: null,
+      file,
       name
     }
   }

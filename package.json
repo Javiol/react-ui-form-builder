@@ -1,12 +1,12 @@
 {
   "name": "react-ui-form-builder-attachment",
-  "version": "0.0.18",
+  "version": "0.0.1",
   "description": "A complete React form builder based on Semantic UI & React DnD",
   "main": "lib/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/josemoyab/react-ui-form-builder.git"
+    "url": "git+https://github.com/javiol/react-ui-form-builder.git"
   },
   "files": [
     "lib",
@@ -21,7 +21,7 @@
     "drag",
     "drop"
   ],
-  "author": "josemoyab",
+  "author": "javiol",
   "dependencies": {
     "beedle": "^0.8.1",
     "classnames": "^2.2.6",

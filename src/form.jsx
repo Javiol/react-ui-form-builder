@@ -11,7 +11,7 @@ import FormElements from './form-elements';
 import LoaderIcon from "./Icons/Loader.js";
 
 const {
-  Image, Checkboxes, Signature, Download, Camera, Attachment
+  Image, Checkboxes, Signature, Download, Camera, Attachment, Table
 } = FormElements;
 
 export default class ReactForm extends React.Component {
@@ -146,6 +146,9 @@ export default class ReactForm extends React.Component {
     const itemData = { name: item.id };
     const ref = this.inputs[item.field_name];
 
+    if (item.element === 'Table') {
+      itemData.value = item.options;
+    } else 
     if (item.element === 'Checkboxes' || item.element === 'RadioButtons') {
       const checked_options = [];
       item.options.forEach(option => {
@@ -308,6 +311,8 @@ export default class ReactForm extends React.Component {
           return <Camera ref={c => this.inputs[item.field_name] = c} read_only={this.props.read_only || item.readOnly} mutable={true} key={`form_${item.id}`} data={item} defaultValue={this._getDefaultValue(item)} onChange={this.elementOnChange} />;
         case 'Attachment':
           return <Attachment ref={c => this.inputs[item.field_name] = c} read_only={this.props.read_only || item.readOnly} mutable={true} key={`form_${item.id}`} data={item} defaultValue={this._getDefaultValue(item)} onChange={this.elementOnChange} />;
+        case 'Table':
+          return <Table ref={c => this.inputs[item.field_name] = c} mutable={true} key={`form_${item.id}`} data={item} defaultValue={this._getDefaultValue(item)} onChange={this.elementOnChange} />;
         default:
           return this.getSimpleElement(item);
       }

@@ -8,6 +8,7 @@ import SignaturePad from 'react-signature-canvas';
 import ReactDatePicker from 'react-datepicker';
 import StarRating from './star-rating';
 import HeaderBar from './header-bar';
+import ID from './UUID';
 
 const FormElements = {};
 const myxss = new xss.FilterXSS({
@@ -929,6 +930,124 @@ class Attachment extends React.Component {
   }
 }
 
+class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.options = {};
+    this.state = this.stateObject();
+  }
+
+  handleChange = (e) => {
+    const option = this.props.data.options.find(option => option.value === e.target.value)
+
+    if(option){
+      this.setState({
+        [option.key]: e.target.checked
+      }, () => {
+        this.props.onChange(e)
+      })
+    }
+  };
+
+  stateObject = () => {
+    const state = {};
+    this.inputField = React.createRef();
+    return state;
+  }
+
+  handleChange = (e, rowIndex, index) => {
+    let pepe = 0;
+    const option = this.props.data.options.body[rowIndex][index].find(option => option.value === e.target.value)
+
+    // if(option){ 
+    //   this.setState({
+    //     [option.key]: e.target.checked
+    //   }, () => {
+    //     this.props.onChange(e)
+    //   })
+    // }
+  };
+
+  addRow = rowIndex =>{
+    // this_element.options.header.splice(index + 1, 0, { value: '', text: '', key: ID.uuid() });
+    const this_body = this.props.data.options;
+    let newRow = {};
+    for( const prop in this_body[0]){
+      newRow[prop] = '';
+    }
+    this_body.splice(rowIndex + 1, 0, newRow);
+    this.props.onChange(this_body)
+  }
+
+  removeRow = rowIndex =>{
+    let pepe = 0;
+    
+  }
+
+  render() {
+    const self = this;
+    let classNames = this.props.data.inline ? 'inline fields' : 'grouped fields';
+
+    let baseClasses = 'SortableItem rfb-item ui form';
+    if (this.props.data.pageBreakBefore) { baseClasses += ' alwaysbreak'; }
+
+    return (
+      <div className={baseClasses}>
+        <ComponentHeader {...this.props} />
+        <div className={`${containerClass(this.props)} ${classNames}`}>
+          <ComponentLabel className="form-label" {...this.props} />
+          <table>
+            <thead>
+              <tr>                
+                {Object.keys(this.props.data.options[0]).map((col, index) => {
+                  const key = `header_${index}_${col}`;
+                  return (
+                    <th key={key} >{col}</th>
+                  );
+                })}
+              <th key={'add_newRow'} >Add Row</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.data.options?.map((row, rowIndex)=>{
+                const trKey = `row_${rowIndex}`;
+                return(
+                  <tr key={trKey}>
+                  {Object.keys(row).map((cell, headerIndex) => {
+                    const tdKey = `td_${rowIndex}_${headerIndex}`;
+                    const props = {};
+                    props.type = 'text';
+                    props.className = 'form-control';
+                    props.id = row[cell];
+                    props.defaultValue = row[cell];
+                    props.ref = this.inputField;
+                    return (
+                      <td key={tdKey} >
+                        <input 
+                          onChange={ e => {
+                            this.props.onChange({value: e.target.value, rowIndex, headerIndex})
+                          }} 
+                          {...props} />
+                      </td>
+                    );
+                  })}
+                  <td>
+                    
+                  <button onClick={this.addRow.bind(this, rowIndex)} className="ui mini button positive"><i className="fa fa-plus-circle"/></button>
+                    { rowIndex > 0
+                      && <button onClick={this.removeRow.bind(this, rowIndex)} className="ui mini button negative"><i className="fa fa-minus-circle"/></button>
+                    }
+                  </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+}
 FormElements.Header = Header;
 FormElements.Paragraph = Paragraph;
 FormElements.Label = Label;
@@ -948,5 +1067,6 @@ FormElements.HyperLink = HyperLink;
 FormElements.Download = Download;
 FormElements.Camera = Camera;
 FormElements.Attachment = Attachment;
+FormElements.Table = Table;
 
 export default FormElements;

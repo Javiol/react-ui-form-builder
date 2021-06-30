@@ -51,6 +51,16 @@ export default class Demobar extends React.Component {
     });
   }
 
+  updateTableRows = (newRows, itemIndex) => {
+    if (this.state.data.length > itemIndex) {
+      const data = [...this.state.data];
+      const auxData = { ...data[itemIndex], options: newRows };
+      data[itemIndex] = auxData;
+      this.setState({ data });
+      store.dispatch('setData', data, false);
+    }
+  }
+
   render() {
     let modalClass = 'ui modal';
     if (this.state.previewVisible) {
@@ -67,18 +77,18 @@ export default class Demobar extends React.Component {
           <h4 style={{margin: 0}}>Preview</h4>
           <button className="ui small button primary" style={{ marginRight: '10px' }} onClick={this.showPreview.bind(this)}>Preview Form</button>
         </div>
-        
         { this.state.previewVisible && 
           <div className="ui dimmer modals page visible active">
             <div className={modalClass}>
-              <div className="scrolling content" style={{overflow: 'visible'}}>
+              <div className="scrolling content" style={{ overflow: 'visible' }}>
                 <ReactFormGenerator
                   download_path=""
                   answer_data={answers}
                   variables={this.props.variables}
-                  data={this.state.data} />
+                  data={this.state.data}
+                  onChange={this.updateTableRows}
+                />
               </div>
-                
               <div className="actions">
                 <div className="ui mini basic button red" onClick={this.closePreview.bind(this)}>Close</div>
               </div>

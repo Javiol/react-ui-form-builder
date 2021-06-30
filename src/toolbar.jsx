@@ -44,6 +44,12 @@ export default class Toolbar extends React.Component {
           { value: 'place_holder_option_2', text: 'Place holder option 2', key: `radiobuttons_option_${ID.uuid()}` },
           { value: 'place_holder_option_3', text: 'Place holder option 3', key: `radiobuttons_option_${ID.uuid()}` },
         ];
+      case 'Table':
+        return  [
+            { column_1: 'column1', column_2: 'Column2', column_3: 'Column3' },
+            { column_1: 'column1', column_2: 'Column2', column_3: 'Column3' },
+            { column_1: 'column1', column_2: 'Column2', column_3: 'Column3' },
+          ]
       default:
         return [];
     }
@@ -206,7 +212,16 @@ export default class Toolbar extends React.Component {
         icon: 'icon file',
         label: 'Placeholder Label',
         field_name: 'attachment_',
-      }
+      },
+      {
+        key: 'Table',
+        canHaveAnswer: true,
+        name: 'Table',
+        icon: 'icon table',
+        label: 'Placeholder Label',
+        field_name: 'table_',
+        options: [],
+      },
     ];
   }
 

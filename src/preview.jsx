@@ -130,9 +130,36 @@ export default class Preview extends React.Component {
     store.dispatch('updateOrder', newData.data);
   }
 
+  updateTableRows = (newRows, itemIndex) => {
+    if (this.state.data?.length > itemIndex) {
+      const data = [...this.state.data];
+      const auxData = { ...data[itemIndex], options: newRows };
+      data[itemIndex] = auxData;
+      this.setState({ data });
+      store.dispatch('setData', data, false);
+    }
+  }
+
   getElement(item, index) {
     const SortableFormElement = SortableFormElements[item.element];
-    return <SortableFormElement id={item.id} seq={this.seq} index={index} moveCard={this.moveCard} insertCard={this.insertCard} mutable={false} parent={this.props.parent} editModeOn={this.props.editModeOn} isDraggable={true} key={item.id} sortData={item.id} data={item} _onDestroy={this._onDestroy} />;
+    return (
+      <SortableFormElement
+        id={item.id}
+        seq={this.seq}
+        index={index}
+        moveCard={this.moveCard}
+        insertCard={this.insertCard}
+        mutable={false}
+        parent={this.props.parent}
+        editModeOn={this.props.editModeOn}
+        isDraggable={true}
+        key={item.id}
+        sortData={item.id}
+        data={item}
+        _onDestroy={this._onDestroy}
+        onChange={this.updateTableRows}
+      />
+    );
   }
 
   render() {

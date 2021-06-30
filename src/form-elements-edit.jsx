@@ -336,7 +336,7 @@ export default class FormElementsEdit extends React.Component {
             updateElement={this.props.updateElement}
             preview={this.props.preview}
             element={this.props.element}
-            key={this.props.element.options.length} />
+            key={this.props.element.options?.length} />
         }
       </div>
     );

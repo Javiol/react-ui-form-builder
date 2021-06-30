@@ -5,7 +5,7 @@ import BaseFormElements from './form-elements';
 const {
   Header, Paragraph, Label, LineBreak, TextInput, NumberInput, TextArea, Dropdown, Checkboxes,
   DatePicker, RadioButtons, Image, Rating, Tags, Signature, HyperLink, Download, Camera,
-  Attachment
+  Attachment, Table
 } = BaseFormElements;
 
 const FormElements = {};
@@ -30,5 +30,6 @@ FormElements.Download = SortableElement(Download);
 FormElements.Camera = SortableElement(Camera);
 FormElements.Attachment = SortableElement(Attachment);
 FormElements.PlaceHolder = SortableElement(PlaceHolder);
+FormElements.Table = SortableElement(Table);
 
 export default FormElements;

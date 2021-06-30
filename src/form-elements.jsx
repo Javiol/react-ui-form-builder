@@ -968,20 +968,31 @@ class Table extends React.Component {
     // }
   };
 
-  addRow = rowIndex =>{
+  addRow = (rowIndex, evt) => {
     // this_element.options.header.splice(index + 1, 0, { value: '', text: '', key: ID.uuid() });
-    const this_body = this.props.data.options;
+    evt.preventDefault();
+    const this_body = [...this.props.data.options];
+    // const this_body = this.props.data.options;
     let newRow = {};
-    for( const prop in this_body[0]){
-      newRow[prop] = '';
+    for (const prop in this_body[0]) {
+      newRow[prop] = "";
     }
     this_body.splice(rowIndex + 1, 0, newRow);
-    this.props.onChange(this_body)
+    this.props.onChange(this_body, this.props.index)
   }
 
-  removeRow = rowIndex =>{
-    let pepe = 0;
-    
+  removeRow = (rowIndex, evt) => {
+    evt.preventDefault();
+    const newRows = this.props.data.options.filter((row, index) => index !== rowIndex);
+    this.props.onChange(newRows, this.props.index);
+  }
+
+  updateCellValue = ({ value, rowIndex, cell }) => {
+    const tempValues = [...this.props.data.options];
+    const selectedRow = {...tempValues[rowIndex]}
+    selectedRow[cell] = value;
+    tempValues[rowIndex] = selectedRow;
+    this.props.onChange(tempValues, this.props.index)
   }
 
   render() {
@@ -1018,14 +1029,16 @@ class Table extends React.Component {
                     const props = {};
                     props.type = 'text';
                     props.className = 'form-control';
-                    props.id = row[cell];
-                    props.defaultValue = row[cell];
+                    //props.id = row[cell];
+                    props.id = tdKey;
                     props.ref = this.inputField;
+                    props.value = row[cell];
+                    props.defaultValue = row[cell];
                     return (
                       <td key={tdKey} >
                         <input 
                           onChange={ e => {
-                            this.props.onChange({value: e.target.value, rowIndex, headerIndex})
+                            this.updateCellValue({value: e.target.value, rowIndex, cell})
                           }} 
                           {...props} />
                       </td>

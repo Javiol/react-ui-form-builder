@@ -288,7 +288,7 @@ export default class ReactForm extends React.Component {
       }
     });
 
-    return data_items.map(item => {
+    return data_items.map((item, index) => {
       switch (item.element) {
         case 'TextInput':
         case 'NumberInput':
@@ -312,7 +312,7 @@ export default class ReactForm extends React.Component {
         case 'Attachment':
           return <Attachment ref={c => this.inputs[item.field_name] = c} read_only={this.props.read_only || item.readOnly} mutable={true} key={`form_${item.id}`} data={item} defaultValue={this._getDefaultValue(item)} onChange={this.elementOnChange} />;
         case 'Table':
-          return <Table ref={c => this.inputs[item.field_name] = c} mutable={true} key={`form_${item.id}`} data={item} defaultValue={this._getDefaultValue(item)} onChange={this.elementOnChange} />;
+          return <Table ref={c => this.inputs[item.field_name] = c} mutable={true} key={`form_${item.id}`} data={item} defaultValue={this._getDefaultValue(item)} onChange={this.props.onChange} index={index} />;
         default:
           return this.getSimpleElement(item);
       }
